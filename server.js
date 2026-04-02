@@ -10,6 +10,11 @@ const app = express();
 // Middleware que permite receber JSON no corpo das requisições
 app.use(express.json());
 
+require("./db");
+
+const userRoutes = require("./routes/userRoutes");
+app.use("/users", userRoutes);
+
 // Chave usada para gerar e validar tokens (simples para fins didáticos)
 const SECRET = "segredo";
 
