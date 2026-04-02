@@ -41,3 +41,26 @@ describe("POST /login", () => {
     expect(response.statusCode).toBe(401);
   });
 });
+
+it("deve acessar rota protegida com token válido", async () => {
+  // Faz login primeiro
+  const loginResponse = await request(app)
+    .post("/login")
+    .send({ username: "teste", password: "123" });
+
+  const token = loginResponse.body.token;
+
+  // Usa o token para acessar rota protegida
+  const response = await request(app)
+    .get("/profile")
+    .set("Authorization", `Bearer ${token}`);
+
+  expect(response.statusCode).toBe(200);
+  expect(response.body.user.username).toBe("teste");
+});
+
+it("deve bloquear acesso sem token", async () => {
+  const response = await request(app).get("/profile");
+
+  expect(response.statusCode).toBe(401);
+});
