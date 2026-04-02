@@ -32,16 +32,36 @@ Body (JSON):
 
 ```JSON
 {
-  "username": "teste"
+  "username": "teste",
+  "password": "123"
 }
 ```
 
-Resposta: token JWT para usar em rotas protegidas.
+Resposta:
+
+```JSON
+{
+  "token": "seu_token_jwt"
+}
+```
 
 **Rota protegida**
 
 Método: GET  
 URL: http://localhost:3000/profile  
 Header:
-Authorization: <token_recebido_no_login>  
-Retorno: mensagem de sucesso e dados do usuário.
+
+```bash
+Authorization: Bearer <token_recebido_no_login>
+```
+
+Resposta:
+
+```JSON
+{
+  "message": "Rota protegida acessada!",
+  "user": {
+    "username": "teste"
+  }
+}
+```
